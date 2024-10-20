@@ -1,0 +1,99 @@
+CREATE DATABASE Proyecto
+USE Proyecto
+
+CREATE TABLE Escuelas (
+    IdEscuela INT IDENTITY(1,1) PRIMARY KEY,
+    NombreEscuela VARCHAR(100),
+    Estado VARCHAR(50)
+);
+
+CREATE TABLE Roles (
+    IdRol INT IDENTITY(1,1) PRIMARY KEY,
+    NombreRol VARCHAR(50)
+);
+
+CREATE TABLE Estados (
+    IdEstado INT IDENTITY(1,1) PRIMARY KEY,
+    NombreEstado VARCHAR(50)
+);
+
+CREATE TABLE TiposCedula (
+    IdTipoCedula INT IDENTITY(1,1) PRIMARY KEY,
+    TipoCedula VARCHAR(50)
+);
+
+CREATE TABLE Proveedores (
+    IdProveedor INT IDENTITY(1,1) PRIMARY KEY,
+    NombreProveedor VARCHAR(100),
+    Telefono VARCHAR(20),
+    CorreoElectronico VARCHAR(100),
+    Direccion VARCHAR(200),
+    Estado VARCHAR(50),
+    IdEscuela INT FOREIGN KEY REFERENCES Escuelas(IdEscuela)
+);
+
+CREATE TABLE Productos (
+    IdProducto INT IDENTITY(1,1) PRIMARY KEY,
+    NombreProducto VARCHAR(100),
+    Descripcion VARCHAR(255),
+    Precio DECIMAL(10,2),
+    Stock INT,
+    IdProveedor INT FOREIGN KEY REFERENCES Proveedores(IdProveedor),
+    IdEscuela INT FOREIGN KEY REFERENCES Escuelas(IdEscuela)
+);
+
+CREATE TABLE ProductosDia (
+    IdProductoDia INT IDENTITY(1,1) PRIMARY KEY,
+    IdProducto INT FOREIGN KEY REFERENCES Productos(IdProducto),
+    Fecha DATE,
+    CantidadVendida INT,
+    PrecioVenta DECIMAL(10,2)
+);
+
+CREATE TABLE Bitacora (
+    IdBitacora INT IDENTITY(1,1) PRIMARY KEY,
+    Accion VARCHAR(100),
+    FechaHora DATETIME,
+    IdUsuario INT FOREIGN KEY REFERENCES Usuarios(IdUsuario),
+    Descripcion VARCHAR(255)
+);
+
+CREATE TABLE Usuarios (
+    IdUsuario INT IDENTITY(1,1) PRIMARY KEY,
+    NombreUsuario VARCHAR(50),
+    ApellidoUsuario VARCHAR(50),
+    CorreoElectronico VARCHAR(100),
+    Contrasena VARCHAR(100),
+    IdRol INT FOREIGN KEY REFERENCES Roles(IdRol),
+    IdEscuela INT FOREIGN KEY REFERENCES Escuelas(IdEscuela),
+    Estado BIT
+);
+
+CREATE TABLE Empleados (
+    IdEmpleado INT IDENTITY(1,1) PRIMARY KEY,
+    NombreCompleto VARCHAR(100),
+    IdTipoCedula INT FOREIGN KEY REFERENCES TiposCedula(IdTipoCedula),
+    Cedula VARCHAR(20),
+    Telefono VARCHAR(20),
+    Direccion VARCHAR(200),
+    IdUsuario INT FOREIGN KEY REFERENCES Usuarios(IdUsuario),
+    IdEscuela INT FOREIGN KEY REFERENCES Escuelas(IdEscuela)
+);
+
+CREATE TABLE Pedidos (
+    IdPedido INT IDENTITY(1,1) PRIMARY KEY,
+    FechaPedido DATE,
+    FechaEntrega DATE,
+    EstadoPedido VARCHAR(50),
+    IdUsuario INT FOREIGN KEY REFERENCES Usuarios(IdUsuario),
+    IdEscuela INT FOREIGN KEY REFERENCES Escuelas(IdEscuela)
+);
+
+CREATE TABLE Pedidos (
+    IdPedido INT IDENTITY(1,1) PRIMARY KEY,
+    FechaPedido DATE,
+    FechaEntrega DATE,
+    EstadoPedido VARCHAR(50),
+    IdUsuario INT FOREIGN KEY REFERENCES Usuarios(IdUsuario),
+    IdEscuela INT FOREIGN KEY REFERENCES Escuelas(IdEscuela)
+);
